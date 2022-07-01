@@ -5,9 +5,16 @@ body {
     align-items: center;
     margin: 0;
     height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Arima', cursive;
+    background-color: black;
   }
   
+h1 {
+  text-align: center;  
+  color: white;
+  font-family: 'Arima', cursive;
+}
+
   #board {
     display: grid;
     grid-template-columns: repeat(4, 20vmin);
@@ -22,5 +29,7 @@ body {
   
   button {
     margin-top: 5vmin;
+    margin-bottom: 2vmin;
     font-size: 4vmin;
+    font-family: 'Arima', cursive;
   }
