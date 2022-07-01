@@ -1,0 +1,26 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  #board {
+    display: grid;
+    grid-template-columns: repeat(4, 20vmin);
+    grid-template-rows: repeat(1, 60vmin);
+    gap: 1vmin;
+  }
+  
+  #board > div {
+    border: 0.5vmin solid grey;
+    cursor: pointer;
+  }
+  
+  button {
+    margin-top: 5vmin;
+    font-size: 4vmin;
+  }
