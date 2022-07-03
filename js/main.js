@@ -23,8 +23,7 @@ const AUDIO_LOOKUP = {
 
 /*----- app's state (variables) -----*/
 let board; // array of 4 elements
-let loser; 
-let gameStatus; // null -> game in progress
+let gameStatus; // null -> game in progress, 'L' is loser
 let ignoreClick; // ignore clicks while progression plays
 let timing; //
 
@@ -32,9 +31,10 @@ let timing; //
 const blockEls = [...document.querySelectorAll('#board > div')];
 const msgEl = document.getElementById('msg');
 const replayBtn = document.querySelector('button');
+const mainEl = document.querySelector('main');
 
 /*----- event listeners -----*/
-document.querySelector('main').addEventListener('click', handleChoice);
+mainEl.addEventListener('click', handleChoice);
 
 /*----- functions -----*/
 init();
@@ -60,17 +60,20 @@ function renderMessage() {
     if (gameStatus === null) {
         msgEl.innerHTML = 'Simon says, "follow my lead"!';
       } else  {
-        msgEl.textContent = 'Too bad... you could NOT keep up!';
+        msgEl.innerHTML = 'Too bad... you could NOT keep up!';
       }
 }
 
 function handleChoice(evt) {
     //guards
-    if (evt.target.tagName !== 'BUTTON' || ignoreClick) return;
+    if (evt.target !== replayBtn || ignoreClick) return;
     ignoreClick = true;
-    loser = '';
+    gameStatus = null;
     render();
-    loser = getLoser();
+    
+   //if ()
+    // the gameStatus is L, then render message and allow evt target to be the button 
+    gameStatus = 'L';
     ignoreClick = false;
     render();
 }
