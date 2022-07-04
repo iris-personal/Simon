@@ -9,10 +9,10 @@ const COLOR_LOOKUP = {
 }
 
 // TODO: find audio files & make sure work
-const audio1 = new Audio('https://freesound.org/s/3515/');
-const audio2 = new Audio('https://freesound.org/s/3516/');
-const audio3 = new Audio('https://freesound.org/s/3517/');
-const audio4 = new Audio('https://freesound.org/s/3518/');
+const audio1 = new Audio('./audio/audio1.wav');
+const audio2 = new Audio('./audio/audio2.wav');
+const audio3 = new Audio('./audio/audio3.wav');
+const audio4 = new Audio('./audio/audio4.wav');
 
 const AUDIO_LOOKUP = {
     1: `${audio1}`,
