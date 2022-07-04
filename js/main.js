@@ -29,6 +29,10 @@ let timing; //
 
 /*----- cached element references -----*/
 const blockEls = [...document.querySelectorAll('#board > div')];
+const block1El = document.getElementById('block1');
+const block2El = document.getElementById('block2');
+const block3El = document.getElementById('block3');
+const block4El = document.getElementById('block4');
 const msgEl = document.getElementById('msg');
 const replayBtn = document.querySelector('button');
 const mainEl = document.querySelector('main');
@@ -75,11 +79,16 @@ function handleChoice(evt) {
 
 function getRandomColor(cb) {
     const color = Object.keys(COLOR_LOOKUP);
-    const rndIdx = Math.floor(Math.random() * color.length);
-    return color[rndIdx];
+    const audio = Object.keys(AUDIO_LOOKUP);
+    const rndIdx = Math.floor(Math.random() * color.length - 1);
+    color[rndIdx];
+    audio[rndIdx];
+    //setInterval function
 }
 
-// event listener on the blockEls
+
+
+// event listener handler on the blockEls
   // if (gameStatus === 'L') {
     //     ignoreClick = 'false';
     //     render();
