@@ -34,7 +34,7 @@ const replayBtn = document.querySelector('button');
 const mainEl = document.querySelector('main');
 
 /*----- event listeners -----*/
-mainEl.addEventListener('click', handleChoice);
+replayBtn.addEventListener('click', handleChoice);
 
 /*----- functions -----*/
 init();
@@ -70,12 +70,7 @@ function handleChoice(evt) {
     ignoreClick = true;
     gameStatus = null;
     render();
-    
-   //if ()
-    // the gameStatus is L, then render message and allow evt target to be the button 
-    gameStatus = 'L';
-    ignoreClick = false;
-    render();
+
 }
 
 function getRandomColor(cb) {
@@ -83,3 +78,10 @@ function getRandomColor(cb) {
     const rndIdx = Math.floor(Math.random() * color.length);
     return color[rndIdx];
 }
+
+// event listener on the blockEls
+  // if (gameStatus === 'L') {
+    //     ignoreClick = 'false';
+    //     render();
+    // }
+    // render();
