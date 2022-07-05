@@ -107,7 +107,7 @@ function generateWinningSequence (cb) {
 // take playerInput compare to gameSequence array
 // if different the player has lost 
 function handlePlayerInput(event) {
-    playerInput.push(event.target.id);
+    playerInput.push(parseInt(event.target.id));
     
     // TODO define an event.target.id variable
     if (event.target.tagName === 'DIV') {
@@ -145,8 +145,8 @@ function handlePlayerInput(event) {
 
 function compareSequence(num) {
     playerInput.forEach(function(arrayEl, idx) {
-        if (arrayEl !== winningSequence) {
-            console.log('loser');
+        if (arrayEl !== winningSequence[idx]) {
+            console.log(winningSequence[idx]);
             return;
         }
         console.log('winner');
