@@ -79,7 +79,7 @@ function render() {
         blockEl.style.backgroundColor = COLOR_LOOKUP[board[idx]];
     });
     renderMessage();
-    renderWinningPattern();
+
     replayBtn.style.visibility = gameStatus ? 'visible' : 'hidden';
 }
 
@@ -93,31 +93,23 @@ function renderMessage() {
 }
 
 
-function renderWinningPattern(i) {
-    if (i < winningSequence.length) {
-        document.querySelector('div').style.backgroundColor = gameSequence[winningSequence[i]].color;
-        gameSequence[winningSequence[i]].audio.play();
-    }
-    setTimeout(() => {
-        i++;
-        renderWinningPattern(i);
-    }, 3000);
-}
 
 function playWinningSequence() {
     blockEls[winningSequence[iterator]].style.backgroundColor = gameSequence[winningSequence[iterator]].color;
     gameSequence[winningSequence[iterator]].audio.play();
+    console.log(winningSequence.length);
     iterator++;
     console.log(iterator);
     console.log(winningSequence.length);
     if (iterator >= winningSequence.length) {
         blockEls[winningSequence[iterator - 1]].style.backgroundColor = 'grey';
+        iterator = 0;
         return;
     };
     setTimeout(function() {
         blockEls[winningSequence[iterator - 1]].style.backgroundColor = 'grey';
         test();
-    }, 1500);
+    }, 200);
     
 }
 
@@ -133,7 +125,6 @@ function handleChoice(evt) {
 function generateWinningSequence (cb) {
     round++;
     winningSequence.push(Math.floor(Math.random() * gameSequence.length));
-    renderWinningPattern();
     console.log(winningSequence);
 }
 
@@ -141,14 +132,14 @@ function generateWinningSequence (cb) {
 function handlePlayerInput(event) {
     playerInput.push(parseInt(event.target.id));
     
-    // TODO define an event.target.id variable
+//     // TODO define an event.target.id variable
     if (event.target.tagName === 'DIV') {
         event.target.style.backgroundColor = gameSequence[event.target.id].color;
         gameSequence[event.target.id].audio.play();
         //console.log(event);
         setTimeout(function() {
             event.target.style.backgroundColor = 'grey';
-        }, 1500);
+        }, 750);
     } 
    if (playerInput.length === winningSequence.length) {
         console.log(playerInput);
@@ -172,6 +163,7 @@ function compareSequence(num) {
             return;
         } else {
             gameStatus = null;
+            playWinningSequence();
             console.log('winner');
         }
     });
