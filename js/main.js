@@ -113,10 +113,14 @@ function playWinningSequence() {
             keyEl.style.backgroundColor = 'grey';
         }, LIT_TIME);
         keyIdx++;
+        console.log(keyIdx);
+        console.log(winningSequence.length);
         if (keyIdx === winningSequence.length) {
             clearInterval(timerId);
             ignoreClick = false;
+            
         }
+
     }, (LIT_TIME + GAP_TIME));
 }
 
@@ -155,31 +159,36 @@ function handlePlayerInput(event) {
         event.target.style.backgroundColor = gameSequence[event.target.id].color;
         gameSequence[event.target.id].audio.play();
         //console.log(event);
+        compareSequence(event.target.id);
         setTimeout(function() {
             event.target.style.backgroundColor = 'grey';
         }, 750);
     } 
 
-    compareSequence(event.target.id);
+    //compareSequence(event.target.id);
 }
 
 
 function compareSequence(num) {
     playerInput.forEach(function(arrayEl, idx) {
-        if (arrayEl !== winningSequence[idx]) {
-            //console.log('loser');
-            gameStatus = 'L';
-            renderMessage; 
-            render(replayBtn);
-            ignoreClick = false;
-            winningSequence = [];
-            return;
-        } else if (playerInput.length === winningSequence.length) {
-            gameStatus = null;
-            generateWinningSequence();
-            playerInput = [];
-            playWinningSequence();
-            //console.log('winner');
-        }
+        // console.log(idx);
+        // console.log(winningSequence.length);
+        // if (arrayEl !== winningSequence[idx]) {
+        //     //console.log('loser');
+        //     gameStatus = 'L';
+        //     renderMessage; 
+        //     render(replayBtn);
+        //     ignoreClick = false;
+        //     winningSequence = [];
+        //     return;
+        // } else if (playerInput.length === winningSequence.length) {
+        //     gameStatus = null;
+        //     generateWinningSequence();
+        //     playerInput = [];
+        //     playWinningSequence();
+        //     //console.log('winner');
+        // }
+        playWinningSequence();
+        generateWinningSequence();
     });
 }
