@@ -77,7 +77,6 @@ function init() {
     round = 0;
     startBtn;
     playerInput = [];
-    iterator = 0;
     render();
 }
 
@@ -87,7 +86,6 @@ function render() {
         blockEl.style.backgroundColor = COLOR_LOOKUP[board[idx]];
     });
     renderMessage();
-
     replayBtn.style.visibility = gameStatus ? 'visible' : 'hidden';
 }
 
@@ -160,28 +158,25 @@ function handlePlayerInput(event) {
             event.target.style.backgroundColor = 'grey';
         }, 750);
     } 
-   if (playerInput.length === winningSequence.length) {
-        console.log(playerInput);
-        compareSequence(event.target.id);
-        generateWinningSequence();
-        round++;
-        playerInput = [];
-    }
+
+    compareSequence(event.target.id);
 }
 
 
 function compareSequence(num) {
     playerInput.forEach(function(arrayEl, idx) {
         if (arrayEl !== winningSequence[idx]) {
-            console.log('loser');
+            //console.log('loser');
             gameStatus = 'L';
             renderMessage; 
             render(replayBtn);
             ignoreClick = false;
             winningSequence = [];
             return;
-        } else {
+        } else if (playerInput.length === winningSequence.length) {
             gameStatus = null;
+            generateWinningSequence();
+            playerInput = [];
             playWinningSequence();
             //console.log('winner');
         }
