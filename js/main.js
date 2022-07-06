@@ -35,6 +35,7 @@ let timing; //
 let winningSequence; 
 let round;
 let playerInput;
+let iterator;
 
 /*----- cached element references -----*/
 const blockEls = [...document.querySelectorAll('#board > div')];
@@ -68,6 +69,7 @@ function init() {
     round = 0;
     generateWinningSequence();
     playerInput = [];
+    iterator = 0;
     render();
 }
 
@@ -94,7 +96,7 @@ function renderMessage() {
 function renderWinningPattern(i) {
     if (i < winningSequence.length) {
         document.querySelector('div').style.backgroundColor = gameSequence[winningSequence[i]].color;
-        gameSequence[winningSequence[i]].audio.play;
+        gameSequence[winningSequence[i]].audio.play();
     }
     setTimeout(() => {
         i++;
@@ -102,7 +104,22 @@ function renderWinningPattern(i) {
     }, 3000);
 }
 
-
+function playWinningSequence() {
+    blockEls[winningSequence[iterator]].style.backgroundColor = gameSequence[winningSequence[iterator]].color;
+    gameSequence[winningSequence[iterator]].audio.play();
+    iterator++;
+    console.log(iterator);
+    console.log(winningSequence.length);
+    if (iterator >= winningSequence.length) {
+        blockEls[winningSequence[iterator - 1]].style.backgroundColor = 'grey';
+        return;
+    };
+    setTimeout(function() {
+        blockEls[winningSequence[iterator - 1]].style.backgroundColor = 'grey';
+        test();
+    }, 1500);
+    
+}
 
 function handleChoice(evt) {
     //guards
@@ -129,7 +146,9 @@ function handlePlayerInput(event) {
         event.target.style.backgroundColor = gameSequence[event.target.id].color;
         gameSequence[event.target.id].audio.play();
         //console.log(event);
-        //event.target.style.backgroundColor = 'grey';
+        setTimeout(function() {
+            event.target.style.backgroundColor = 'grey';
+        }, 1500);
     } 
    if (playerInput.length === winningSequence.length) {
         console.log(playerInput);
