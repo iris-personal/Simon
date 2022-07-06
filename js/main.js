@@ -25,7 +25,6 @@ const gameSequence = [
     {color: 'slateblue', audio: audio2 },    
     {color: 'mediumaquamarine', audio: audio3 },    
     {color: 'palegreen', audio: audio4 },    
-
 ];
 
 /*----- app's state (variables) -----*/
@@ -40,10 +39,10 @@ let playerInput;
 /*----- cached element references -----*/
 const blockEls = [...document.querySelectorAll('#board > div')];
 
-const block1El = document.getElementById('block1');
-const block2El = document.getElementById('block2');
-const block3El = document.getElementById('block3');
-const block4El = document.getElementById('block4');
+const block1El = document.getElementById('0');
+const block2El = document.getElementById('1');
+const block3El = document.getElementById('2');
+const block4El = document.getElementById('3');
 
 const msgEl = document.getElementById('msg');
 
@@ -58,6 +57,7 @@ document.getElementById('board').addEventListener('click', handlePlayerInput);
 /*----- functions -----*/
 init();
 
+
 function init() {
     board = [
         null, null, null, null
@@ -71,13 +71,16 @@ function init() {
     render();
 }
 
+
 function render() {
     blockEls.forEach(function(blockEl, idx) {
         blockEl.style.backgroundColor = COLOR_LOOKUP[board[idx]];
-      });
-      renderMessage();
-      replayBtn.style.visibility = gameStatus ? 'visible' : 'hidden';
+    });
+    renderMessage();
+    renderWinningPattern();
+    replayBtn.style.visibility = gameStatus ? 'visible' : 'hidden';
 }
+
 
 function renderMessage() {
     if (gameStatus === null) {
@@ -87,25 +90,37 @@ function renderMessage() {
       }
 }
 
+
+function renderWinningPattern(i) {
+    if (i < winningSequence.length) {
+        document.querySelector('div').style.backgroundColor = gameSequence[winningSequence[i]].color;
+        gameSequence[winningSequence[i]].audio.play;
+    }
+    setTimeout(() => {
+        i++;
+        renderWinningPattern(i);
+    }, 3000);
+}
+
+
+
 function handleChoice(evt) {
     //guards
     if (evt.target !== replayBtn || ignoreClick) return;
     ignoreClick = true;
     gameStatus = null;
     render();
-
 }
 
 
 function generateWinningSequence (cb) {
+    round++;
     winningSequence.push(Math.floor(Math.random() * gameSequence.length));
+    renderWinningPattern();
     console.log(winningSequence);
-    // if (gameSequence.length < 50) {
-    //     gameSequence.push({}); // 
 }
 
-// take playerInput compare to gameSequence array
-// if different the player has lost 
+
 function handlePlayerInput(event) {
     playerInput.push(parseInt(event.target.id));
     
@@ -114,7 +129,7 @@ function handlePlayerInput(event) {
         event.target.style.backgroundColor = gameSequence[event.target.id].color;
         gameSequence[event.target.id].audio.play();
         //console.log(event);
-        event.target.style.backgroundColor = 'grey';
+        //event.target.style.backgroundColor = 'grey';
     } 
    if (playerInput.length === winningSequence.length) {
         console.log(playerInput);
@@ -123,38 +138,22 @@ function handlePlayerInput(event) {
         round++;
         playerInput = [];
    }
-    
-    //guards
-    // if (gameStatus === 'L') {
-    //     clearInterval(gameInterval);
-    //     ignoreClick = false;
-    //     render();
-    // }
-
-    // if (event.target !== gameSequence) {
-    //     clearInterval(gameInterval);
-    //     gameStatus = 'L';
-    //     ignoreClick = false; 
-    //     render();  
-    // }
-    
-    // render();
-};
-
+}
 
 
 function compareSequence(num) {
     playerInput.forEach(function(arrayEl, idx) {
         if (arrayEl !== winningSequence[idx]) {
-            console.log(winningSequence[idx]);
+            console.log('loser');
+            gameStatus = 'L';
+            renderMessage; 
+            render(replayBtn);
+            ignoreClick = false;
+            winningSequence = [];
             return;
+        } else {
+            gameStatus = null;
+            console.log('winner');
         }
-        console.log('winner');
-    })
-    
-    // if (playerInput === winningSequence) {
-    //     console.log('true');
-    // } else {
-    //     console.log('false');
-    // }
+    });
 }
