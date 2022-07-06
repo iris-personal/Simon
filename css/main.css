@@ -7,30 +7,34 @@ body {
     height: 100vh;
     font-family: 'Arima', cursive;
     background-color: black;
-    border: 2vmin dashed cornflowerblue;
-}
-  
-h1 {
-  text-align: center;  
-  color: white;
+
 }
 
-h2 {
+#head {
+    text-align: center;  
     color: white;
-    text-align: center;
 }
+
+h1 {
+    font-size: xx-large;
+    font-weight: 500;
+    border: 1vmin dashed cornflowerblue;
+}
+
 
 #board {
     display: grid;
     grid-template-columns: repeat(4, 20vmin);
     grid-template-rows: repeat(1, 60vmin);
-    gap: 1vmin;
+    gap: 1.5vmin;
 }
   
 #board > div {
     border: 0.5vmin solid grey;
     cursor: pointer;
     background-color: lightgrey;
+    box-shadow: 1vmin 1vmin .5vmin lightgray;
+    
 }
 
   

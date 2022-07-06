@@ -27,6 +27,10 @@ const gameSequence = [
     {color: 'palegreen', audio: audio4 },    
 ];
 
+const LIT_TIME = 800;
+
+const GAP_TIME = 500;
+
 /*----- app's state (variables) -----*/
 let board; // array of 4 elements
 let gameStatus; // null -> game in progress, 'L' is loser
@@ -47,11 +51,15 @@ const block4El = document.getElementById('3');
 
 const msgEl = document.getElementById('msg');
 
-const replayBtn = document.querySelector('button');
+const startBtn = document.getElementById('start');
+const replayBtn = document.getElementById('reset');
 
 const mainEl = document.querySelector('main');
 
+
+
 /*----- event listeners -----*/
+startBtn.addEventListener('click', handleStartGame);
 replayBtn.addEventListener('click', handleChoice);
 document.getElementById('board').addEventListener('click', handlePlayerInput);
 
@@ -67,7 +75,7 @@ function init() {
     ignoreClick = false;
     winningSequence = [];
     round = 0;
-    generateWinningSequence();
+    startBtn;
     playerInput = [];
     iterator = 0;
     render();
@@ -95,27 +103,38 @@ function renderMessage() {
 
 
 function playWinningSequence() {
-    blockEls[winningSequence[iterator]].style.backgroundColor = gameSequence[winningSequence[iterator]].color;
-    gameSequence[winningSequence[iterator]].audio.play();
-    console.log(winningSequence.length);
-    iterator++;
-    console.log(iterator);
-    console.log(winningSequence.length);
-    if (iterator >= winningSequence.length) {
-        blockEls[winningSequence[iterator - 1]].style.backgroundColor = 'grey';
-        iterator = 0;
-        return;
-    };
-    setTimeout(function() {
-        blockEls[winningSequence[iterator - 1]].style.backgroundColor = 'grey';
-        test();
-    }, 200);
-    
+    ignoreClick = true;
+    let keyIdx = 0;
+    //let winSeqIdx = winningSequence[keyIdx];
+    const timerId = setInterval(function() {
+        const keyEl = blockEls[winningSequence[keyIdx]];
+        keyEl.style.backgroundColor = gameSequence[winningSequence[keyIdx]].color;
+        gameSequence[winningSequence[keyIdx]].audio.play();
+        setTimeout(function() {
+            keyEl.style.backgroundColor = 'grey';
+        }, LIT_TIME);
+        keyIdx++;
+        if (keyIdx === winningSequence.length) {
+            clearInterval(timerId);
+            ignoreClick = false;
+        }
+    }, (LIT_TIME + GAP_TIME));
 }
+
+function handleStartGame(evt) {
+    if (evt.target === startBtn) {
+        generateWinningSequence();
+        startBtn.style.visibility =  'hidden';
+        playWinningSequence();
+    }
+}
+
 
 function handleChoice(evt) {
     //guards
     if (evt.target !== replayBtn || ignoreClick) return;
+    generateWinningSequence();
+    playWinningSequence();
     ignoreClick = true;
     gameStatus = null;
     render();
@@ -132,7 +151,7 @@ function generateWinningSequence (cb) {
 function handlePlayerInput(event) {
     playerInput.push(parseInt(event.target.id));
     
-//     // TODO define an event.target.id variable
+    // TODO define an event.target.id variable
     if (event.target.tagName === 'DIV') {
         event.target.style.backgroundColor = gameSequence[event.target.id].color;
         gameSequence[event.target.id].audio.play();
@@ -147,7 +166,7 @@ function handlePlayerInput(event) {
         generateWinningSequence();
         round++;
         playerInput = [];
-   }
+    }
 }
 
 
@@ -164,7 +183,7 @@ function compareSequence(num) {
         } else {
             gameStatus = null;
             playWinningSequence();
-            console.log('winner');
+            //console.log('winner');
         }
     });
 }
