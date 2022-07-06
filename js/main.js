@@ -35,25 +35,26 @@ const GAP_TIME = 500;
 let board; // array of 4 elements
 let gameStatus; // null -> game in progress, 'L' is loser
 let ignoreClick; // ignore clicks while progression plays
-let timing; //
+let timing; 
 let winningSequence; 
 let round;
 let playerInput;
 let iterator;
 
 /*----- cached element references -----*/
+// board
 const blockEls = [...document.querySelectorAll('#board > div')];
 
 const block1El = document.getElementById('0');
 const block2El = document.getElementById('1');
 const block3El = document.getElementById('2');
 const block4El = document.getElementById('3');
-
+// message
 const msgEl = document.getElementById('msg');
-
+// buttons
 const startBtn = document.getElementById('start');
 const replayBtn = document.getElementById('reset');
-
+// main
 const mainEl = document.querySelector('main');
 
 
