@@ -30,7 +30,6 @@ h1 {
 }
   
 #board > div {
-    /* border: 0.5vmin solid grey; */
     cursor: pointer;
     background-color: lightgrey;
     box-shadow: 1vmin 1vmin .5vmin lightgray;
