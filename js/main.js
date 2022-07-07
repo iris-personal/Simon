@@ -12,13 +12,6 @@ const audio2 = new Audio('./audio/audio2.wav');
 const audio3 = new Audio('./audio/audio3.wav');
 const audio4 = new Audio('./audio/audio4.wav');
 
-const AUDIO_LOOKUP = {
-    1: `${audio1}`,
-    2: `${audio2}`,
-    3: `${audio3}`,
-    4: `${audio4}`,
-} 
-
 // array of objects tracking the sequence created by getting random color and audio 
 const gameSequence = [
     {color: 'mediumOrchid', audio: audio1 },    
@@ -36,28 +29,21 @@ let board; // array of 4 elements
 let gameStatus; // null -> game in progress, 'L' is loser
 let ignoreClick; // ignore clicks while progression plays
 let timing; 
-let winningSequence; 
+let winningSequence; // empty array for winning sequence
 let round;
-let playerInput;
-let iterator;
+let playerInput; // empty array for player clicks
 let clickCounter;
 
 /*----- cached element references -----*/
 // board
 const blockEls = [...document.querySelectorAll('#board > div')];
 
-const block1El = document.getElementById('0');
-const block2El = document.getElementById('1');
-const block3El = document.getElementById('2');
-const block4El = document.getElementById('3');
 // message
 const msgEl = document.getElementById('msg');
+
 // buttons
 const startBtn = document.getElementById('start');
 const replayBtn = document.getElementById('reset');
-// main
-const mainEl = document.querySelector('main');
-
 
 
 /*----- event listeners -----*/
@@ -105,7 +91,6 @@ function renderMessage() {
 function playWinningSequence() {
     ignoreClick = true;
     let keyIdx = 0;
-    //let winSeqIdx = winningSequence[keyIdx];
     const timerId = setInterval(function() {
         const keyEl = blockEls[winningSequence[keyIdx]];
         keyEl.style.backgroundColor = gameSequence[winningSequence[keyIdx]].color;
@@ -114,14 +99,13 @@ function playWinningSequence() {
             keyEl.style.backgroundColor = 'grey';
         }, LIT_TIME);
         keyIdx++;
-        //console.log(keyIdx);
-        //console.log(winningSequence.length);
         if (keyIdx === winningSequence.length) {
             clearInterval(timerId);
             ignoreClick = false;
         }
     }, (LIT_TIME + GAP_TIME));
 }
+
 
 function handleStartGame(evt) {
     if (evt.target === startBtn) {
@@ -150,8 +134,6 @@ function generateWinningSequence (cb) {
 
 function handlePlayerInput(event) {
     playerInput.push(parseInt(event.target.id));
-    //console.log(playerInput);
-    //console.log(parseInt(event.target.id));
     compareSequence(event.target.id);
     clickCounter++;
     if (event.target.tagName === 'DIV') {
@@ -161,23 +143,16 @@ function handlePlayerInput(event) {
             event.target.style.backgroundColor = 'grey';
         }, 750);
     } 
-    if (clickCounter === winningSequence.length){
-        //console.log(clickCounter);
+    if (clickCounter === winningSequence.length) {
         clickCounter = 0;
         playerInput = [];
         generateWinningSequence();
         playWinningSequence();
     }
-    // TODO define an event.target.id variable
-
 }
 
 
 function compareSequence(num) {
-    //console.log(clickCounter);
-    //console.log(playerInput[clickCounter]);
-    //console.log(winningSequence[clickCounter]);
-       
     if (playerInput[clickCounter] === winningSequence[clickCounter]) {
         console.log('match');
         gameStatus = null;
@@ -188,8 +163,6 @@ function compareSequence(num) {
         render(replayBtn);
         ignoreClick = false;
         winningSequence = [];
-    
         return;
     }
-
 }
