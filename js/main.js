@@ -48,12 +48,11 @@ const replayBtn = document.getElementById('reset');
 
 /*----- event listeners -----*/
 startBtn.addEventListener('click', handleStartGame);
-replayBtn.addEventListener('click', handleChoice);
+replayBtn.addEventListener('click', handleReplay);
 document.getElementById('board').addEventListener('click', handlePlayerInput);
 
 /*----- functions -----*/
 init();
-
 
 function init() {
     board = [
@@ -69,7 +68,6 @@ function init() {
     render();
 }
 
-
 function render() {
     blockEls.forEach(function(blockEl, idx) {
         blockEl.style.backgroundColor = COLOR_LOOKUP[board[idx]];
@@ -78,7 +76,6 @@ function render() {
     replayBtn.style.visibility = gameStatus ? 'visible' : 'hidden';
 }
 
-
 function renderMessage() {
     if (gameStatus === null) {
         msgEl.innerHTML = 'Simon says, "follow my lead"!';
@@ -86,7 +83,6 @@ function renderMessage() {
         msgEl.innerHTML = 'Too bad... you could NOT keep up!';
       }
 }
-
 
 function playWinningSequence() {
     ignoreClick = true;
@@ -101,26 +97,22 @@ function playWinningSequence() {
         keyIdx++;
         if (keyIdx === winningSequence.length) {
             clearInterval(timerId);
-            ignoreClick = false;
+            setTimeout(function() {
+                ignoreClick = false;
+            }, LIT_TIME);
         }
     }, (LIT_TIME + GAP_TIME));
 }
 
 
 function handleStartGame(evt) {
-    if (evt.target === startBtn) {
-        generateWinningSequence();
-        startBtn.style.visibility =  'hidden';
-        playWinningSequence();
-    }
+    generateWinningSequence();
+    startBtn.style.visibility =  'hidden';
+    playWinningSequence();
 }
 
 
-function handleChoice(evt) {
-    //guards
-    if (evt.target !== replayBtn || ignoreClick) return;
-    ignoreClick = true;
-    gameStatus = null;
+function handleReplay(evt) {
     init();
 }
 
@@ -133,6 +125,7 @@ function generateWinningSequence (cb) {
 
 
 function handlePlayerInput(event) {
+    if (ignoreClick) return;
     playerInput.push(parseInt(event.target.id));
     compareSequence(event.target.id);
     clickCounter++;
@@ -141,7 +134,7 @@ function handlePlayerInput(event) {
         gameSequence[event.target.id].audio.play();
         setTimeout(function() {
             event.target.style.backgroundColor = 'grey';
-        }, 750);
+        }, LIT_TIME);
     } 
     if (clickCounter === winningSequence.length) {
         clickCounter = 0;

@@ -5,22 +5,25 @@ body {
     align-items: center;
     margin: 0;
     height: 100vh;
-    font-family: 'Arima', cursive;
+    font-family: 'orbitron', sans-serif;
     background-color: black;
-
 }
 
 #head {
     text-align: center;  
     color: white;
+
 }
 
 h1 {
     font-size: xx-large;
-    font-weight: 500;
-    border: 1vmin dashed cornflowerblue;
+    border: 1vmin dashed;
+    border-top-color: mediumorchid;    
+    border-right-color: slateblue;    
+    border-bottom-color: mediumaquamarine;    
+    border-left-color: palegreen;
+    padding: 5vmin;
 }
-
 
 #board {
     display: grid;
@@ -32,14 +35,34 @@ h1 {
 #board > div {
     cursor: pointer;
     background-color: lightgrey;
-    box-shadow: 1vmin 1vmin .5vmin lightgray;
-    
 }
 
-  
+.block0 {
+    box-shadow: 1vmin 1vmin .5vmin mediumorchid;
+}
+
+.block1 {
+    box-shadow: 1vmin 1vmin .5vmin slateblue;
+}
+
+.block2 {
+    box-shadow: 1vmin 1vmin .5vmin mediumaquamarine;
+}
+
+.block3 {
+    box-shadow: 1vmin 1vmin .5vmin palegreen;
+}
+
 button {
     margin-top: 5vmin;
     margin-bottom: 2vmin;
     font-size: 3vmin;
-    font-family: 'Arima', cursive;
+    font-family: 'orbitron', sans-serif;
+    border: 0ch;
+}
+
+button:hover, 
+button:focus {
+    box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+    transform: translateY(-0.25em);
 }
