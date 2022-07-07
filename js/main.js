@@ -40,6 +40,7 @@ let winningSequence;
 let round;
 let playerInput;
 let iterator;
+let clickCounter;
 
 /*----- cached element references -----*/
 // board
@@ -76,8 +77,9 @@ function init() {
     ignoreClick = false;
     winningSequence = [];
     round = 0;
-    startBtn;
+    startBtn.style.visibility = 'visible';
     playerInput = [];
+    clickCounter = 0;
     render();
 }
 
@@ -100,7 +102,6 @@ function renderMessage() {
 }
 
 
-
 function playWinningSequence() {
     ignoreClick = true;
     let keyIdx = 0;
@@ -113,14 +114,12 @@ function playWinningSequence() {
             keyEl.style.backgroundColor = 'grey';
         }, LIT_TIME);
         keyIdx++;
-        console.log(keyIdx);
-        console.log(winningSequence.length);
+        //console.log(keyIdx);
+        //console.log(winningSequence.length);
         if (keyIdx === winningSequence.length) {
             clearInterval(timerId);
             ignoreClick = false;
-            
         }
-
     }, (LIT_TIME + GAP_TIME));
 }
 
@@ -136,11 +135,9 @@ function handleStartGame(evt) {
 function handleChoice(evt) {
     //guards
     if (evt.target !== replayBtn || ignoreClick) return;
-    generateWinningSequence();
-    playWinningSequence();
     ignoreClick = true;
     gameStatus = null;
-    render();
+    init();
 }
 
 
@@ -153,42 +150,46 @@ function generateWinningSequence (cb) {
 
 function handlePlayerInput(event) {
     playerInput.push(parseInt(event.target.id));
-    
-    // TODO define an event.target.id variable
+    //console.log(playerInput);
+    //console.log(parseInt(event.target.id));
+    compareSequence(event.target.id);
+    clickCounter++;
     if (event.target.tagName === 'DIV') {
         event.target.style.backgroundColor = gameSequence[event.target.id].color;
         gameSequence[event.target.id].audio.play();
-        //console.log(event);
-        compareSequence(event.target.id);
         setTimeout(function() {
             event.target.style.backgroundColor = 'grey';
         }, 750);
     } 
+    if (clickCounter === winningSequence.length){
+        //console.log(clickCounter);
+        clickCounter = 0;
+        playerInput = [];
+        generateWinningSequence();
+        playWinningSequence();
+    }
+    // TODO define an event.target.id variable
 
-    //compareSequence(event.target.id);
 }
 
 
 function compareSequence(num) {
-    playerInput.forEach(function(arrayEl, idx) {
-        // console.log(idx);
-        // console.log(winningSequence.length);
-        // if (arrayEl !== winningSequence[idx]) {
-        //     //console.log('loser');
-        //     gameStatus = 'L';
-        //     renderMessage; 
-        //     render(replayBtn);
-        //     ignoreClick = false;
-        //     winningSequence = [];
-        //     return;
-        // } else if (playerInput.length === winningSequence.length) {
-        //     gameStatus = null;
-        //     generateWinningSequence();
-        //     playerInput = [];
-        //     playWinningSequence();
-        //     //console.log('winner');
-        // }
-        playWinningSequence();
-        generateWinningSequence();
-    });
+    //console.log(clickCounter);
+    //console.log(playerInput[clickCounter]);
+    //console.log(winningSequence[clickCounter]);
+       
+    if (playerInput[clickCounter] === winningSequence[clickCounter]) {
+        console.log('match');
+        gameStatus = null;
+    } else {
+        console.log('loser');  
+        gameStatus = 'L';
+        renderMessage; 
+        render(replayBtn);
+        ignoreClick = false;
+        winningSequence = [];
+    
+        return;
+    }
+
 }
