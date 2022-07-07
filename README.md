@@ -28,6 +28,7 @@
       </ul>
     </li>
     <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#usage-examples">Usage Examples</a></li>
     <li><a href="#icebox">Ice Box</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -66,7 +67,7 @@ Follow these 3 simple steps to play "Simon" on your web browser of choice.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Usage Examples
 
 ![Screenshot 1](https://i.imgur.com/SHqvCe1.png)
 ![Screenshot 2](https://i.imgur.com/ZjVLvNK.png)
